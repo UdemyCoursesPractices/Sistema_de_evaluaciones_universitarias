@@ -38,4 +38,22 @@ contract notas {
         _;
     }
 
+    //Funcion para ver als notas de un alumno
+    function VerNotas(string memory _idAlumno) public view returns(uint){
+        bytes32 hash_idAlumno = keccak256(abi.encodePacked(_idAlumno));
+        return Notas[hash_idAlumno];
+    }
+
+    //Funcion para pedir revision del examen
+    function Revision(string memory _idAlumno) public{
+        // Almacenamiento de la identidad del alumno en un array.
+        revisiones.push(_idAlumno);
+        //Emision del evento
+        emit evento_revision(_idAlumno);
+    }
+
+    //Ver Revisiones solicitadas. 
+    function VerRevisiones()public view Unicamente(msg.sender) returns(string [] memory){
+        return revisiones;
+    }
 }
